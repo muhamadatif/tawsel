@@ -2,41 +2,41 @@ import Button from "@/components/Button";
 import FormField from "@/components/FormField";
 import { COLORS } from "@/Constants/Colors";
 import { useKeyboardVisibility } from "@/hooks/useKeyboardVisibility";
-import { signinSchema } from "@/schemas/auth";
-import { Ionicons } from "@expo/vector-icons";
+import { forgotPasswordSchema } from "@/schemas/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { z } from "zod";
 
-const Signin = () => {
-  const [showPassword, setShowPassword] = useState(true);
+const ForgotPassword = () => {
+  const router = useRouter();
   const isKeyboardVisible = useKeyboardVisibility();
 
-  const router = useRouter();
   const {
     control,
     handleSubmit,
     formState: { errors },
     resetField,
-  } = useForm<z.infer<typeof signinSchema>>({
-    resolver: zodResolver(signinSchema),
+  } = useForm<z.infer<typeof forgotPasswordSchema>>({
+    resolver: zodResolver(forgotPasswordSchema),
   });
 
   const onSubmit = (data: any) => {
-    let formData: { mobile?: string; email?: string; password: string } = {
-      password: data.password,
-    };
+    let formData: { mobile?: string; email?: string } = {};
     if (data.emailOrPhone.startsWith("0")) {
       formData.mobile = data.emailOrPhone;
     } else {
       formData.email = data.emailOrPhone;
     }
 
-    // router.replace("/(tabs)/home");
+    //   router.replace("/(auth)/verificationForgotPassword");
   };
   return (
     <ScrollView
@@ -45,9 +45,14 @@ const Signin = () => {
       showsVerticalScrollIndicator={false}
       keyboardShouldPersistTaps="always"
     >
-      <View>
-        <Text style={styles.headerText}>Sign in</Text>
+      <View style={styles.headerContainer}>
+        <Text style={styles.header}>Forgot Password</Text>
+        <Text style={styles.subHeader}>
+          Enter your mobile number or Email and we will send you a password
+          reset code
+        </Text>
       </View>
+
       <View style={styles.form}>
         <FormField
           name="emailOrPhone"
@@ -69,32 +74,8 @@ const Signin = () => {
           }
           // label="Email or phone"
         />
-        <FormField
-          name="password"
-          placeholder="********"
-          control={control}
-          error={errors.password?.message}
-          secureTextEntry={showPassword}
-          icon={
-            <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons name="eye-outline" color={COLORS.grayDark} size={20} />
-            </TouchableOpacity>
-          }
-        />
-        <TouchableOpacity
-          style={styles.forgotPasswordBox}
-          onPress={() => router.push("/(auth)/forgotPassword")}
-        >
-          <Text
-            style={{ color: COLORS.dark, fontSize: 12, fontWeight: "bold" }}
-          >
-            Forgot Password?
-          </Text>
-        </TouchableOpacity>
       </View>
-
-      <Button label="Sign in" onPress={handleSubmit(onSubmit)} />
-
+      <Button label="Reset password" onPress={handleSubmit(onSubmit)} />
       <View style={styles.footer}>
         <Text
           style={{ fontSize: 12, color: COLORS.grayMedium, fontWeight: "bold" }}
@@ -119,17 +100,22 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 36,
   },
-  headerText: {
+  headerContainer: {
+    gap: 15,
+    marginBottom: 60,
+  },
+  header: {
     color: COLORS.dark,
     fontWeight: "bold",
     fontSize: 25,
   },
+  subHeader: {
+    color: COLORS.dark,
+    fontSize: 14,
+    fontWeight: "500",
+  },
   form: {
     marginBottom: 70,
-    marginTop: 100,
-    borderBottomWidth: 1,
-    borderBottomColor: COLORS.grayMedium,
-    paddingBottom: 70,
   },
   forgotPasswordBox: {
     alignSelf: "flex-end",
@@ -143,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signin;
+export default ForgotPassword;
