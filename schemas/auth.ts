@@ -12,3 +12,9 @@ export const signinSchema = z.object({
     .min(8, "Password must be at least 8 characters")
     .regex(/[0-9]/, "Must include at least one number"),
 });
+
+export const signupSchema = z.object({
+  phone: z
+    .string({ required_error: "Phone is required" })
+    .regex(/^01[0125][0-9]{8}$/, "Enter a valid phone number"),
+});
