@@ -1,9 +1,10 @@
 import InitialLayout from "@/components/InitialLayout";
 import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
-import { useCallback } from "react";
+import React, { useCallback } from "react";
+import { SafeAreaView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 

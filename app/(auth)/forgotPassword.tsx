@@ -36,7 +36,7 @@ const ForgotPassword = () => {
       formData.email = data.emailOrPhone;
     }
 
-    //   router.replace("/(auth)/verificationForgotPassword");
+    router.replace("/(auth)/verificationForgotPassword");
   };
   return (
     <ScrollView
