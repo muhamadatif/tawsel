@@ -1,12 +1,12 @@
-import { View, Text } from "react-native";
 import React from "react";
+import { Text, View } from "react-native";
 
-const Burger = () => {
+const Orders = () => {
   return (
     <View>
-      <Text>Burger</Text>
+      <Text>Orders</Text>
     </View>
   );
 };
 
-export default Burger;
+export default Orders;
