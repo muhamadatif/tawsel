@@ -1,4 +1,3 @@
-// app/(address)/_layout.tsx
 import { COLORS } from "@/Constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
@@ -25,6 +24,13 @@ export default function AddressLayout() {
             </>
           ),
           animation: "slide_from_right",
+        }}
+      />
+      <Stack.Screen
+        name="mapViewPage"
+        options={{
+          // headerShown: false,
+          header: () => <StatusBar backgroundColor="white" style="dark" />,
         }}
       />
     </Stack>

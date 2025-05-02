@@ -1,6 +1,7 @@
 import Button from "@/components/Button";
 import { COLORS } from "@/Constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function AddressListScreen() {
@@ -27,7 +28,7 @@ export default function AddressListScreen() {
       <View style={styles.footer}>
         <Button
           label="Add new address"
-          //   onPress={() => router.replace("/mapView")}
+          onPress={() => router.push("/mapViewPage")}
         />
       </View>
     </>
