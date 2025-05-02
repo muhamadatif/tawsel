@@ -26,7 +26,7 @@ const Home = () => {
         </View>
         <SearchButton
           onPress={() => {
-            // router.push("/(modals)/addressList");
+            router.push("/(address)/addressList"); // Navigate back to the Address List screen
           }}
         />
       </View>
