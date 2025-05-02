@@ -31,7 +31,7 @@ const VerificationSignup = () => {
 
   const handleSubmit = () => {
     if (otp) {
-      //   router.replace("/(tabs)/home");
+      router.replace("/(tabs)/home");
     }
   };
 

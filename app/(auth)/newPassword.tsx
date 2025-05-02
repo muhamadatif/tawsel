@@ -33,7 +33,7 @@ const NewPassword = () => {
   });
 
   const onSubmit = (data: any) => {
-    //   router.replace("/(tabs)/home");
+    router.replace("/(tabs)/home");
   };
   return (
     <>
