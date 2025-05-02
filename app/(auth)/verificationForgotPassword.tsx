@@ -30,7 +30,7 @@ const VerificationSignup = () => {
 
   const handleSubmit = () => {
     if (otp) {
-      //   router.replace("/(auth)/newPassword");
+      router.replace("/(auth)/newPassword");
     }
   };
 

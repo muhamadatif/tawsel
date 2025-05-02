@@ -27,3 +27,10 @@ export const forgotPasswordSchema = z.object({
     z.string().regex(/^01[0125][0-9]{8}$/),
   ]),
 });
+
+export const newPasswordSchema = z.object({
+  password: z
+    .string({ required_error: "Password is required" })
+    .min(8, "Password must be at least 8 characters")
+    .regex(/[0-9]/, "Must include at least one number"),
+});
