@@ -7,7 +7,7 @@ import { Pressable, StatusBar, StyleSheet, View } from "react-native";
 const TABS = [
   { name: "deals", icon: "flame" as keyof typeof Ionicons.glyphMap },
   { name: "restaurants", icon: "grid" as keyof typeof Ionicons.glyphMap },
-  { name: "home", icon: "home" as keyof typeof Ionicons.glyphMap },
+  { name: "home/index", icon: "home" as keyof typeof Ionicons.glyphMap },
   { name: "search", icon: "search" as keyof typeof Ionicons.glyphMap },
   { name: "orders", icon: "fast-food" as keyof typeof Ionicons.glyphMap },
 ];
