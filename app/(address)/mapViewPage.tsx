@@ -5,12 +5,15 @@ import useRequestLocation from "@/hooks/useRequestLocation";
 import { formatAddress } from "@/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import MapView from "react-native-maps";
 
 const MapViewPage = () => {
   const { initialRegion, coords, setCoords, place, setPlace } =
     useRequestLocation();
+  const address = formatAddress(place);
+  const { street = "", region = "" } = address || {};
+  console.log(street, region);
 
   const mapRef = useRef<MapView>(null);
 
@@ -35,18 +38,13 @@ const MapViewPage = () => {
           <Ionicons name="location-outline" size={45} color={COLORS.primary} />
           {!!place && (
             <View style={styles.detailsContainer}>
-              <View style={styles.actionContainer}>
-                <Text style={{ color: COLORS.grayMedium }}>SelectLocation</Text>
-                <TouchableOpacity style={styles.actionButton}>
-                  <Text style={{ fontWeight: "500" }}>Change</Text>
-                </TouchableOpacity>
-              </View>
+              {street && <Text>{street}</Text>}
               <Text
                 numberOfLines={1}
                 ellipsizeMode="tail"
                 style={{ fontWeight: "bold" }}
               >
-                {formatAddress(place)}
+                {region}
               </Text>
             </View>
           )}
@@ -85,7 +83,11 @@ const styles = StyleSheet.create({
     gap: 25,
   },
   locationContainer: { flexDirection: "row", gap: 5 },
-  detailsContainer: { gap: 10, flex: 1 },
+  detailsContainer: {
+    flex: 1,
+    justifyContent: "center",
+    gap: 5,
+  },
   actionContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

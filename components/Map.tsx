@@ -1,7 +1,8 @@
 import { Place } from "@/Constants/Types";
+import { compareNumbers } from "@/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import React, { RefObject, useEffect, useRef, useState } from "react";
+import React, { RefObject, useRef } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import MapView, { Region } from "react-native-maps";
 import Pulse from "./Pulse";
@@ -16,33 +17,7 @@ type Props = {
 };
 
 const Map = ({ initialRegion, setCoords, setPlace, mapRef }: Props) => {
-  const [isInitial, setIsInitial] = useState(true);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsInitial(false);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleRegionChangeComplete = (region: Region) => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(async () => {
-      const { latitude, longitude } = region;
-      try {
-        const [place] = await Location.reverseGeocodeAsync({
-          latitude,
-          longitude,
-        });
-        setPlace(place);
-      } catch (error) {
-        console.error("Reverse geocoding failed", error);
-      }
-      setCoords({ latitude, longitude });
-    }, 100);
-  };
 
   const recenterToUserLocation = async () => {
     try {
@@ -84,7 +59,27 @@ const Map = ({ initialRegion, setCoords, setPlace, mapRef }: Props) => {
   };
 
   const onRegionChange = (region: Region) => {
-    if (!isInitial) setPlace(null);
+    const isEqual =
+      compareNumbers(initialRegion!.latitude, region.latitude) &&
+      compareNumbers(initialRegion!.longitude, region.longitude);
+    !isEqual && setPlace(null);
+  };
+
+  const handleRegionChangeComplete = (region: Region) => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(async () => {
+      const { latitude, longitude } = region;
+      try {
+        const [place] = await Location.reverseGeocodeAsync({
+          latitude,
+          longitude,
+        });
+        setPlace(place);
+      } catch (error) {
+        console.error("Reverse geocoding failed", error);
+      }
+      setCoords({ latitude, longitude });
+    }, 100);
   };
 
   if (!initialRegion) return null;
