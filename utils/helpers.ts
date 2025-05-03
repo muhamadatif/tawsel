@@ -5,7 +5,7 @@ export const formatAddress = (
 ): { street: string | null; region: string | null } | null => {
   if (!place) return null;
 
-  const { name, street, district, subregion, city, region, country } = place;
+  const { street, subregion, region } = place;
 
   return {
     street,

@@ -13,7 +13,6 @@ const MapViewPage = () => {
     useRequestLocation();
   const address = formatAddress(place);
   const { street = "", region = "" } = address || {};
-  console.log(street, region);
 
   const mapRef = useRef<MapView>(null);
 
