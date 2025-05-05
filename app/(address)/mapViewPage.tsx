@@ -1,11 +1,18 @@
 import Button from "@/components/Button";
+import GooglePlacesSearch from "@/components/GooglePlacesSearch";
 import Map from "@/components/Map";
 import { COLORS } from "@/Constants/Colors";
 import useRequestLocation from "@/hooks/useRequestLocation";
 import { formatAddress } from "@/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useRef } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Keyboard,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from "react-native";
 import MapView from "react-native-maps";
 
 const MapViewPage = () => {
@@ -25,32 +32,54 @@ const MapViewPage = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Map
-        initialRegion={initialRegion}
-        setCoords={setCoords}
-        setPlace={setPlace}
-        mapRef={mapRef}
-      />
-      <View style={styles.footer}>
-        <View style={styles.locationContainer}>
-          <Ionicons name="location-outline" size={45} color={COLORS.primary} />
-          {!!place && (
-            <View style={styles.detailsContainer}>
-              {street && <Text>{street}</Text>}
-              <Text
-                numberOfLines={1}
-                ellipsizeMode="tail"
-                style={{ fontWeight: "bold" }}
-              >
-                {region}
-              </Text>
-            </View>
-          )}
+    <TouchableWithoutFeedback
+      onPress={() => {
+        Keyboard.dismiss();
+      }}
+      accessible={false}
+    >
+      <View style={styles.container}>
+        <View style={styles.searchContainer}>
+          <GooglePlacesSearch
+            setPlace={setPlace}
+            setCoords={setCoords}
+            mapRef={mapRef}
+          />
         </View>
-        <Button label="CONFIRM LOCATION" onPress={() => {}} disabled={!place} />
+        <Map
+          initialRegion={initialRegion}
+          setCoords={setCoords}
+          setPlace={setPlace}
+          mapRef={mapRef}
+        />
+        <View style={styles.footer}>
+          <View style={styles.locationContainer}>
+            <Ionicons
+              name="location-outline"
+              size={45}
+              color={COLORS.primary}
+            />
+            {!!place && (
+              <View style={styles.detailsContainer}>
+                {street && <Text>{street}</Text>}
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode="tail"
+                  style={{ fontWeight: "bold" }}
+                >
+                  {region}
+                </Text>
+              </View>
+            )}
+          </View>
+          <Button
+            label="CONFIRM LOCATION"
+            onPress={() => {}}
+            disabled={!place}
+          />
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -65,10 +94,12 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     position: "absolute",
-    width: "100%",
-    zIndex: 1,
-    top: 10,
+    width: "90%",
+    alignSelf: "center",
+    zIndex: 50000,
+    top: 60,
     alignItems: "center",
+    justifyContent: "center",
   },
   footer: {
     width: "100%",

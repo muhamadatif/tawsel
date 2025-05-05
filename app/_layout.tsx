@@ -4,6 +4,7 @@ import { SplashScreen } from "expo-router";
 import React, { useCallback } from "react";
 import { SafeAreaView } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import "react-native-get-random-values";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();

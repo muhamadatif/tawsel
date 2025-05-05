@@ -58,18 +58,3 @@ const Pulse: React.FC<PulseProps> = React.memo(
 Pulse.displayName = "Pulse";
 
 export default Pulse;
-
-// const styles=StyleSheet.create({
-//   pulse:{
-//     width: size,
-//     height: size,
-//     borderRadius: size / 2,
-//     backgroundColor: color,
-//     transform: [{ scale }],
-//     position: "absolute",
-//     top: "50%",
-//     left: "50%",
-//     marginLeft: -size / 2,
-//     marginTop: -size / 2,
-//   }
-// })
