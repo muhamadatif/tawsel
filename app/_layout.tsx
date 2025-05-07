@@ -1,4 +1,5 @@
 import InitialLayout from "@/components/InitialLayout";
+import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import { useFonts } from "expo-font";
 import { SplashScreen } from "expo-router";
 import React, { useCallback } from "react";
@@ -24,7 +25,9 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <SafeAreaView style={{ flex: 1 }} onLayout={onLayoutRootView}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <InitialLayout />
+          <BottomSheetModalProvider>
+            <InitialLayout />
+          </BottomSheetModalProvider>
         </GestureHandlerRootView>
       </SafeAreaView>
     </SafeAreaProvider>

@@ -1,12 +1,16 @@
+import BottomSheetComponent from "@/components/BottomSheetComponent";
 import Button from "@/components/Button";
+import CompleteAddress from "@/components/CompleteAddress";
 import GooglePlacesSearch from "@/components/GooglePlacesSearch";
 import Map from "@/components/Map";
 import { COLORS } from "@/Constants/Colors";
 import useRequestLocation from "@/hooks/useRequestLocation";
 import { formatAddress } from "@/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import React, { useRef } from "react";
 import {
+  ActivityIndicator,
   Keyboard,
   StyleSheet,
   Text,
@@ -23,10 +27,12 @@ const MapViewPage = () => {
 
   const mapRef = useRef<MapView>(null);
 
+  const bottomSheetRef = useRef<BottomSheetModal>(null);
+
   if (!initialRegion) {
     return (
       <View style={styles.loadingContainer}>
-        <Text>Loading your location...</Text>
+        <ActivityIndicator size="large" color={COLORS.primary} />
       </View>
     );
   }
@@ -74,10 +80,19 @@ const MapViewPage = () => {
           </View>
           <Button
             label="CONFIRM LOCATION"
-            onPress={() => {}}
+            onPress={() => {
+              bottomSheetRef.current?.present();
+            }}
             disabled={!place}
           />
         </View>
+        <BottomSheetComponent ref={bottomSheetRef}>
+          <CompleteAddress
+            street={street}
+            region={region}
+            modalRef={bottomSheetRef}
+          />
+        </BottomSheetComponent>
       </View>
     </TouchableWithoutFeedback>
   );

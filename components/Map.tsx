@@ -46,13 +46,13 @@ const Map = ({ initialRegion, setCoords, setPlace, mapRef }: Props) => {
         });
         setPlace(place);
       } catch (error) {
-        console.error("Reverse geocoding failed", error);
+        console.error("Reverse geocoding failed");
       }
 
       setCoords({ latitude, longitude });
       mapRef.current?.animateToRegion(newRegion, 1000);
     } catch (err) {
-      console.error("Error fetching location:", err);
+      console.error("Error fetching location:");
     }
   };
 
@@ -72,7 +72,7 @@ const Map = ({ initialRegion, setCoords, setPlace, mapRef }: Props) => {
       });
       setPlace(place);
     } catch (error) {
-      console.error("Reverse geocoding failed", error);
+      console.error("Reverse geocoding failed");
     }
     setCoords({ latitude, longitude });
   };

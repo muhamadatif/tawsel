@@ -1,13 +1,22 @@
+import AddressCard from "@/components/AddressCard";
 import Button from "@/components/Button";
 import { COLORS } from "@/Constants/Colors";
+import useAddressStore from "@/store/useAddress";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function AddressListScreen() {
+  const addressList = useAddressStore((state) => state.addressList);
   return (
     <>
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      {addressList.length > 0 ? (
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          {addressList.map((address, index) => (
+            <AddressCard key={index} address={address} />
+          ))}
+        </ScrollView>
+      ) : (
         <View style={styles.noAddressContainer}>
           <Ionicons
             name="location-outline"
@@ -23,7 +32,7 @@ export default function AddressListScreen() {
             </Text>
           </View>
         </View>
-      </ScrollView>
+      )}
 
       <View style={styles.footer}>
         <Button
@@ -40,15 +49,16 @@ const styles = StyleSheet.create({
     padding: 16,
     paddingBottom: 100,
     flexGrow: 1,
-    justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "white",
+    gap: 20,
   },
   noAddressContainer: {
     justifyContent: "center",
     alignItems: "center",
     gap: 30,
-    marginTop: -50,
+    marginTop: -30,
+    backgroundColor: COLORS.white,
+    flexGrow: 1,
   },
   noAddressContent: {
     justifyContent: "center",

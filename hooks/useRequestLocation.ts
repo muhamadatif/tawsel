@@ -78,7 +78,7 @@ const useRequestLocation = () => {
       });
       setPlace(place);
     } catch (error) {
-      console.error("Reverse geocoding failed", error);
+      console.error("Reverse geocoding failed");
     }
 
     setCoords({ latitude, longitude });

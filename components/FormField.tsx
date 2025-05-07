@@ -14,10 +14,12 @@ interface FormFieldProps {
   placeholder: string;
   name: any;
   control: Control<any>;
-  error: string | undefined;
+  error?: string | undefined;
   secureTextEntry?: boolean;
   keyboardType?: KeyboardTypeOptions | undefined;
   label?: string;
+  type?: string;
+  style?: any;
 }
 const FormField = ({
   icon,
@@ -28,7 +30,31 @@ const FormField = ({
   secureTextEntry,
   keyboardType,
   label,
+  type,
+  style,
 }: FormFieldProps) => {
+  if (type === "address")
+    return (
+      <>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              keyboardType={keyboardType}
+              secureTextEntry={secureTextEntry}
+              placeholder={placeholder}
+              style={[styles.addressInput, style]}
+              placeholderTextColor={COLORS.grayMedium}
+              value={value}
+              onChangeText={onChange}
+            />
+          )}
+        />
+        {error && <Text style={styles.error}>{error}</Text>}
+      </>
+    );
+
   return (
     <View style={styles.formField}>
       {label && (
@@ -45,7 +71,7 @@ const FormField = ({
               keyboardType={keyboardType}
               secureTextEntry={secureTextEntry}
               placeholder={placeholder}
-              style={styles.input}
+              style={styles.addressInput}
               placeholderTextColor={COLORS.grayMedium}
               value={value}
               onChangeText={onChange}
@@ -112,6 +138,12 @@ const styles = StyleSheet.create({
   error: {
     color: COLORS.danger,
     fontWeight: "bold",
+  },
+  addressInput: {
+    fontWeight: "bold",
+    borderBottomWidth: 2,
+    borderBottomColor: "rgba(0, 0, 0, 0.1)",
+    width: "45%",
   },
 });
 

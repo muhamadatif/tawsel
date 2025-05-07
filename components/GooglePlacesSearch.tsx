@@ -20,7 +20,7 @@ const GooglePlacesSearch = ({ setCoords, setPlace, mapRef }: Props) => {
 
   useEffect(() => {
     if (mapRef.current) {
-      console.log("MapView ref initialized", mapRef.current);
+      console.log("MapView ref initialized");
     } else {
       console.log("MapView ref is null");
     }
@@ -73,7 +73,7 @@ const GooglePlacesSearch = ({ setCoords, setPlace, mapRef }: Props) => {
           });
           setPlace(place);
         } catch (error) {
-          console.error("Reverse geocoding failed", error);
+          console.error("Reverse geocoding failed");
         }
 
         if (mapRef.current) {

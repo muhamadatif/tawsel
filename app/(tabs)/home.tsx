@@ -1,6 +1,7 @@
 import DropButton from "@/components/DropButton";
-import SearchButton from "@/components/SearchButton";
+import SearchButton from "@/components/LocationButton";
 import { COLORS } from "@/Constants/Colors";
+import useAddressStore from "@/store/useAddress";
 import { useRouter } from "expo-router";
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -8,6 +9,7 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const Home = () => {
   const router = useRouter();
+  const currentAddress = useAddressStore((state) => state.currentAddress);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
@@ -28,6 +30,7 @@ const Home = () => {
           onPress={() => {
             router.push("/(address)/addressList"); // Navigate back to the Address List screen
           }}
+          address={currentAddress}
         />
       </View>
     </ScrollView>
