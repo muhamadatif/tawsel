@@ -1,5 +1,5 @@
-import { TAGS } from "@/Constants";
 import { COLORS } from "@/Constants/Colors";
+import { TAGS } from "@/Constants/Constants";
 import { addressSchema } from "@/schemas/app";
 import useAddressStore from "@/store/useAddress";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
@@ -37,7 +37,14 @@ const CompleteAddress = ({ street, region, modalRef }: Props) => {
   const isActive = watch("building") && watch("flat");
 
   const onSubmit = (data: z.infer<typeof addressSchema>) => {
-    const address = { tag: tagLocation, ...data, street, region };
+    const address = {
+      id: Date.now().toLocaleString(),
+      tag: tagLocation,
+      ...data,
+      street,
+      region,
+    };
+
     setCurrentAddress(address);
     addAddressToList(address);
     modalRef.current?.dismiss();

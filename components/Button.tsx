@@ -17,28 +17,39 @@ interface Props {
   type?: "primary" | "secondary";
   onPress: () => void;
   disabled?: boolean;
+  padding?: number;
+  fontsize?: number;
 }
 
-const Button = ({ label, type = "primary", onPress, disabled }: Props) => {
+const Button = ({
+  label,
+  type = "primary",
+  onPress,
+  disabled,
+  fontsize,
+  padding = 16,
+}: Props) => {
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        { backgroundColor: TYPES[type] },
+        { backgroundColor: TYPES[type], padding: padding },
         disabled && { backgroundColor: COLORS.grayMedium },
       ]}
       onPress={onPress}
       disabled={disabled}
     >
-      <Text style={[styles.buttonText, { color: LABELS[type] }]}>{label}</Text>
+      <Text
+        style={[styles.buttonText, { color: LABELS[type], fontSize: fontsize }]}
+      >
+        {label}
+      </Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    paddingHorizontal: 16,
-    padding: 16,
     borderRadius: 8,
   },
   buttonText: { textAlign: "center", fontWeight: "bold", fontSize: 16 },

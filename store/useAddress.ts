@@ -9,6 +9,7 @@ interface addressState {
 }
 const useAddressStore = create<addressState>((set) => ({
   currentAddress: {
+    id: "",
     tag: "",
     building: "",
     flat: "",

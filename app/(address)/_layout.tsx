@@ -29,7 +29,6 @@ export default function AddressLayout() {
       <Stack.Screen
         name="mapViewPage"
         options={{
-          // headerShown: false,
           header: () => <StatusBar backgroundColor="white" style="dark" />,
         }}
       />
@@ -38,10 +37,6 @@ export default function AddressLayout() {
 }
 
 const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     backgroundColor: "white",
-  //   },
   headerContainer: {
     height: 80,
     backgroundColor: COLORS.primary,

@@ -4,16 +4,25 @@ import { COLORS } from "@/Constants/Colors";
 import useAddressStore from "@/store/useAddress";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useState } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function AddressListScreen() {
+  const [activeId, setActiveId] = useState("");
+
   const addressList = useAddressStore((state) => state.addressList);
+
   return (
     <>
       {addressList.length > 0 ? (
         <ScrollView contentContainerStyle={styles.scrollContent}>
           {addressList.map((address, index) => (
-            <AddressCard key={index} address={address} />
+            <AddressCard
+              key={index}
+              address={address}
+              activeId={activeId}
+              setActiveId={setActiveId}
+            />
           ))}
         </ScrollView>
       ) : (
