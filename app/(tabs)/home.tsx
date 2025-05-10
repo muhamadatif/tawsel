@@ -29,7 +29,7 @@ const Home = () => {
         </View>
         <SearchButton
           onPress={() => {
-            router.push("/(address)/addressList"); // Navigate back to the Address List screen
+            router.push("/(address)/addressList");
           }}
           address={currentAddress}
         />

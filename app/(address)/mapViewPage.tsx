@@ -63,7 +63,7 @@ const MapViewPage = () => {
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
   const address = formatAddress(place);
-  const { street = "", region = "" } = address || {};
+  const { street = "", name = "", region = "" } = address || {};
 
   if (!initialRegion) {
     return (
@@ -103,7 +103,9 @@ const MapViewPage = () => {
             />
             {!!place && (
               <View style={styles.detailsContainer}>
-                {street && <Text>{street}</Text>}
+                <Text>
+                  {street ? `${street},` : ""} {name}
+                </Text>
                 <Text
                   numberOfLines={1}
                   ellipsizeMode="tail"

@@ -84,7 +84,7 @@ const AddressCard = ({
             ellipsizeMode="tail"
             style={activeAddress && { color: COLORS.white }}
           >
-            {`${`${address?.building}, ` || ""}${`${address?.flat}, ` || ""}${
+            {`${`${address?.flat}, ` || ""}${`${address?.building}, ` || ""}${
               address.place?.street !== null ? address.place?.street + ", " : ""
             }${`${address.place?.region}` || ""} `}
           </Text>

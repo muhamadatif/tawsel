@@ -97,8 +97,8 @@ const CompleteAddress = ({ place, modalRef, coords, addressToEdit }: Props) => {
           numberOfLines={1}
           ellipsizeMode="tail"
         >
-          {place?.street && `${place.street}`} {place?.subregion},{" "}
-          {place?.region}
+          {place?.street && `${place.street},`} {place?.name} {place?.subregion}
+          , {place?.region}
         </Text>
         <TouchableOpacity
           style={styles.changeButton}
@@ -121,17 +121,17 @@ const CompleteAddress = ({ place, modalRef, coords, addressToEdit }: Props) => {
           }}
         >
           <FormField
-            name="building"
-            placeholder="Building No./Name*"
-            control={control}
-            error={errors.building?.message}
-            type="address"
-          />
-          <FormField
             name="flat"
             placeholder="Flat No./Name*"
             control={control}
             error={errors.flat?.message}
+            type="address"
+          />
+          <FormField
+            name="building"
+            placeholder="Building No./Name*"
+            control={control}
+            error={errors.building?.message}
             type="address"
           />
         </View>

@@ -11,32 +11,11 @@ const useRequestLocation = (isEditing: boolean) => {
   const [place, setPlace] = useState<Place | null>(null);
 
   const fromSettings = useRef(false);
-
-  useFocusEffect(
-    useCallback(() => {
-      if (isEditing) return;
-      requestLocation();
-    }, [isEditing])
+  const locationSubscription = useRef<Location.LocationSubscription | null>(
+    null
   );
 
-  useEffect(() => {
-    if (isEditing) return;
-    const subscription = AppState.addEventListener("change", async (state) => {
-      if (state === "active" && fromSettings.current) {
-        fromSettings.current = false;
-        const { status } = await Location.getForegroundPermissionsAsync();
-        if (status !== "granted") {
-          router.back();
-        } else {
-          requestLocation();
-        }
-      }
-    });
-
-    return () => subscription.remove();
-  }, [isEditing]);
-
-  const requestLocation = async () => {
+  const startWatchingLocation = async () => {
     const { status, canAskAgain } =
       await Location.requestForegroundPermissionsAsync();
 
@@ -70,28 +49,77 @@ const useRequestLocation = (isEditing: boolean) => {
       return;
     }
 
-    const location = await Location.getCurrentPositionAsync({});
-    const { latitude, longitude } = location.coords;
+    // Start watching
+    locationSubscription.current = await Location.watchPositionAsync(
+      {
+        accuracy: Location.Accuracy.Highest,
+        timeInterval: 3000, // every 3 seconds
+        distanceInterval: 2, // or every 2 meters
+      },
+      async (location) => {
+        const { latitude, longitude } = location.coords;
 
-    try {
-      const [place] = await Location.reverseGeocodeAsync({
-        latitude,
-        longitude,
-      });
-      setPlace(place);
-    } catch (error) {
-      console.error("Reverse geocoding failed");
+        setCoords({ latitude, longitude });
+        setInitialRegion({
+          latitude,
+          longitude,
+          latitudeDelta: 0.005,
+          longitudeDelta: 0.005,
+        });
+
+        try {
+          const [foundPlace] = await Location.reverseGeocodeAsync({
+            latitude,
+            longitude,
+          });
+          setPlace(foundPlace);
+        } catch (error) {
+          console.error("Reverse geocoding failed", error);
+        }
+      }
+    );
+  };
+
+  const stopWatchingLocation = () => {
+    locationSubscription.current?.remove();
+    locationSubscription.current = null;
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      if (isEditing) return;
+
+      startWatchingLocation();
+
+      return () => {
+        stopWatchingLocation();
+      };
+    }, [isEditing])
+  );
+
+  useEffect(() => {
+    if (isEditing) {
+      stopWatchingLocation();
+      return;
     }
 
-    setCoords({ latitude, longitude });
-
-    setInitialRegion({
-      latitude,
-      longitude,
-      latitudeDelta: 0.005,
-      longitudeDelta: 0.005,
+    const subscription = AppState.addEventListener("change", async (state) => {
+      if (state === "active" && fromSettings.current) {
+        fromSettings.current = false;
+        const { status } = await Location.getForegroundPermissionsAsync();
+        if (status !== "granted") {
+          router.back();
+        } else {
+          startWatchingLocation();
+        }
+      }
     });
-  };
+
+    return () => {
+      subscription.remove();
+      stopWatchingLocation();
+    };
+  }, [isEditing]);
 
   return {
     initialRegion,
