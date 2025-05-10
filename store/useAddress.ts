@@ -7,6 +7,7 @@ interface addressState {
   setCurrentAddress: (address: AddressItem) => void;
   addAddressToList: (address: AddressItem) => void;
   editAddress: (address: AddressItem) => void;
+  deleteAddress: (id: string) => void;
 }
 const useAddressStore = create<addressState>((set) => ({
   currentAddress: {
@@ -29,6 +30,10 @@ const useAddressStore = create<addressState>((set) => ({
       addressList: state.addressList.map((a) =>
         a.id === address.id ? address : a
       ),
+    })),
+  deleteAddress: (id: string) =>
+    set((state) => ({
+      addressList: state.addressList.filter((a) => a.id !== id),
     })),
 }));
 

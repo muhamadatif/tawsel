@@ -22,6 +22,7 @@ const AddressCard = ({
 }: Props) => {
   const currentAddress = useAddressStore((state) => state.currentAddress);
   const setCurrentAddress = useAddressStore((state) => state.setCurrentAddress);
+  const deleteAddress = useAddressStore((state) => state.deleteAddress);
 
   const [modalPosition, setModalPosition] = useState({
     x: 0,
@@ -31,6 +32,7 @@ const AddressCard = ({
   });
   const activeAddress = Boolean(currentAddress.id === address.id);
   const isActive = activeId === address.id;
+
   const buttonRef = useRef<React.ComponentRef<typeof TouchableOpacity>>(null);
   const handleOpenModal = (id: string) => {
     if (buttonRef.current) {
@@ -113,7 +115,10 @@ const AddressCard = ({
             <Ionicons name="pencil-outline" />
             <Text>Edit</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity
+            style={styles.actionButton}
+            onPress={() => deleteAddress(address.id)}
+          >
             <Ionicons name="trash-outline" />
             <Text>delete</Text>
           </TouchableOpacity>
