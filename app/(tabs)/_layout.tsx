@@ -18,6 +18,7 @@ export default function TabLayout() {
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
 
       <Tabs
+        initialRouteName="home"
         screenOptions={{
           tabBarShowLabel: false,
           headerShown: false,

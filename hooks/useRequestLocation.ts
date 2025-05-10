@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Alert, AppState, Linking, Platform } from "react-native";
 import { Region } from "react-native-maps";
 
-const useRequestLocation = () => {
+const useRequestLocation = (isEditing: boolean) => {
   const [initialRegion, setInitialRegion] = useState<Region | null>(null);
   const [coords, setCoords] = useState({});
   const [place, setPlace] = useState<Place | null>(null);
@@ -14,11 +14,13 @@ const useRequestLocation = () => {
 
   useFocusEffect(
     useCallback(() => {
+      if (isEditing) return;
       requestLocation();
-    }, [])
+    }, [isEditing])
   );
 
   useEffect(() => {
+    if (isEditing) return;
     const subscription = AppState.addEventListener("change", async (state) => {
       if (state === "active" && fromSettings.current) {
         fromSettings.current = false;
@@ -32,7 +34,7 @@ const useRequestLocation = () => {
     });
 
     return () => subscription.remove();
-  }, []);
+  }, [isEditing]);
 
   const requestLocation = async () => {
     const { status, canAskAgain } =
@@ -93,6 +95,7 @@ const useRequestLocation = () => {
 
   return {
     initialRegion,
+    setInitialRegion,
     coords,
     setCoords,
     place,

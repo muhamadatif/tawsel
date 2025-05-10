@@ -57,9 +57,13 @@ const LocationButton = ({ location, onPress, address }: Props) => {
               ellipsizeMode="tail"
               style={{ flexShrink: 1, fontSize: 12 }}
             >
-              {`${`${address?.building}, ` || ""}${`${address?.flat}, ` || ""}${
-                `${address?.street}, ` || ""
-              }${`${address?.region}` || ""} `}
+              {`${`${address?.building}, ` || ""}${
+                `${address?.flat}, ` || ""
+              }${`${
+                address?.place?.street !== null
+                  ? address?.place?.street + ", "
+                  : ""
+              }`}${`${address?.place?.region}` || ""} `}
             </Text>
           </>
         ) : (

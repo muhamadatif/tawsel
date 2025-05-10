@@ -6,6 +6,7 @@ interface addressState {
   addressList: AddressItem[];
   setCurrentAddress: (address: AddressItem) => void;
   addAddressToList: (address: AddressItem) => void;
+  editAddress: (address: AddressItem) => void;
 }
 const useAddressStore = create<addressState>((set) => ({
   currentAddress: {
@@ -14,14 +15,21 @@ const useAddressStore = create<addressState>((set) => ({
     building: "",
     flat: "",
     reach: "",
-    street: "",
-    region: "",
+    place: null,
+    latitude: 0,
+    longitude: 0,
   },
   addressList: [],
   setCurrentAddress: (address: AddressItem) =>
     set(() => ({ currentAddress: address })),
   addAddressToList: (address: AddressItem) =>
     set((state) => ({ addressList: [...state.addressList, address] })),
+  editAddress: (address: AddressItem) =>
+    set((state) => ({
+      addressList: state.addressList.map((a) =>
+        a.id === address.id ? address : a
+      ),
+    })),
 }));
 
 export default useAddressStore;

@@ -4,10 +4,11 @@ export type Place = Location.LocationGeocodedAddress;
 
 export type AddressItem = {
   id: string;
-  tag?: string;
-  building?: string;
-  flat?: string;
+  tag: string;
+  building: string;
+  flat: string;
   reach?: string;
-  street?: string | null;
-  region?: string | null;
+  place: Place | null;
+  latitude: number;
+  longitude: number;
 };

@@ -1,6 +1,7 @@
 import DropButton from "@/components/DropButton";
 import SearchButton from "@/components/LocationButton";
 import { COLORS } from "@/Constants/Colors";
+import useBackHandler from "@/hooks/useBackHandler";
 import useAddressStore from "@/store/useAddress";
 import { useRouter } from "expo-router";
 import React from "react";
@@ -10,7 +11,7 @@ import { ScrollView } from "react-native-gesture-handler";
 const Home = () => {
   const router = useRouter();
   const currentAddress = useAddressStore((state) => state.currentAddress);
-
+  useBackHandler(true);
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
       <View style={styles.headerSection}>

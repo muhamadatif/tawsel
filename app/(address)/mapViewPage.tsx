@@ -1,6 +1,6 @@
 import BottomSheetComponent from "@/components/BottomSheetComponent";
 import Button from "@/components/Button";
-import CompleteAddress from "@/components/CompleteAddress";
+import CompleteAddress from "@/components/CreateEditAddress";
 import GooglePlacesSearch from "@/components/GooglePlacesSearch";
 import Map from "@/components/Map";
 import { COLORS } from "@/Constants/Colors";
@@ -8,7 +8,8 @@ import useRequestLocation from "@/hooks/useRequestLocation";
 import { formatAddress } from "@/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
-import React, { useRef } from "react";
+import { useLocalSearchParams } from "expo-router";
+import React, { useEffect, useMemo, useRef } from "react";
 import {
   ActivityIndicator,
   Keyboard,
@@ -20,14 +21,49 @@ import {
 import MapView from "react-native-maps";
 
 const MapViewPage = () => {
-  const { initialRegion, coords, setCoords, place, setPlace } =
-    useRequestLocation();
-  const address = formatAddress(place);
-  const { street = "", region = "" } = address || {};
+  const params = useLocalSearchParams();
+
+  const addressToEdit = useMemo(() => {
+    if (!params.addressToEdit) return null;
+    try {
+      return JSON.parse(params.addressToEdit as string);
+    } catch {
+      return null;
+    }
+  }, [params.addressToEdit]);
+
+  const isEditing = Boolean(addressToEdit);
+
+  const {
+    initialRegion,
+    setInitialRegion,
+    coords,
+    setCoords,
+    place,
+    setPlace,
+  } = useRequestLocation(isEditing);
+
+  useEffect(() => {
+    if (!isEditing) return;
+    setInitialRegion({
+      latitude: addressToEdit.latitude,
+      longitude: addressToEdit.longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: 0.005,
+    });
+    setCoords({
+      latitude: addressToEdit.latitude,
+      longitude: addressToEdit.longitude,
+    });
+    setPlace(addressToEdit.place);
+  }, [isEditing, addressToEdit, setInitialRegion, setCoords, setPlace]);
 
   const mapRef = useRef<MapView>(null);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
+
+  const address = formatAddress(place);
+  const { street = "", region = "" } = address || {};
 
   if (!initialRegion) {
     return (
@@ -88,9 +124,10 @@ const MapViewPage = () => {
         </View>
         <BottomSheetComponent ref={bottomSheetRef}>
           <CompleteAddress
-            street={street}
-            region={region}
+            place={place}
+            coords={coords}
             modalRef={bottomSheetRef}
+            addressToEdit={addressToEdit}
           />
         </BottomSheetComponent>
       </View>

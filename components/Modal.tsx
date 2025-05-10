@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   },
   modal: {
     position: "absolute",
-    padding: 10,
+    // padding: 10,
     width: 80,
     backgroundColor: "white",
     shadowColor: "#000",

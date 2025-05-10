@@ -2,6 +2,7 @@ import { COLORS } from "@/Constants/Colors";
 import { AddressItem } from "@/Constants/Types";
 import useAddressStore from "@/store/useAddress";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React, { useRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Modal from "./Modal";
@@ -19,8 +20,8 @@ const AddressCard = ({
   activeId,
   setActiveId,
 }: Props) => {
-  const setCurrentAddress = useAddressStore((state) => state.setCurrentAddress);
   const currentAddress = useAddressStore((state) => state.currentAddress);
+  const setCurrentAddress = useAddressStore((state) => state.setCurrentAddress);
 
   const [modalPosition, setModalPosition] = useState({
     x: 0,
@@ -52,22 +53,22 @@ const AddressCard = ({
           styles.cardContainer,
           activeAddress && {
             backgroundColor: COLORS.dark,
-            borderColor: COLORS.white,
           },
         ]}
-        onPress={() => setCurrentAddress(address)}
+        onPress={() => {
+          setCurrentAddress(address);
+          router.replace("/(tabs)/home");
+        }}
       >
         <TouchableOpacity
-          style={[
-            styles.ellipsisButton,
-            activeAddress && { backgroundColor: COLORS.white },
-          ]}
+          style={[styles.ellipsisButton]}
           onPress={() => handleOpenModal(address.id)}
           ref={buttonRef}
         >
           <Ionicons
             name="ellipsis-vertical-outline"
-            color={activeAddress ? COLORS.dark : COLORS.white}
+            color={activeAddress ? COLORS.white : COLORS.dark}
+            size={18}
           />
         </TouchableOpacity>
         <View style={styles.addressBox}>
@@ -82,8 +83,8 @@ const AddressCard = ({
             style={activeAddress && { color: COLORS.white }}
           >
             {`${`${address?.building}, ` || ""}${`${address?.flat}, ` || ""}${
-              address.street !== null ? address.street + ", " : ""
-            }${`${address?.region}` || ""} `}
+              address.place?.street !== null ? address.place?.street + ", " : ""
+            }${`${address.place?.region}` || ""} `}
           </Text>
         </View>
       </TouchableOpacity>
@@ -93,7 +94,22 @@ const AddressCard = ({
         onRequestClose={() => setActiveId("")}
       >
         <View style={styles.modalContent}>
-          <TouchableOpacity style={styles.actionButton}>
+          <TouchableOpacity
+            style={[
+              styles.actionButton,
+              {
+                borderBottomColor: COLORS.grayMedium,
+                borderBottomWidth: 0.5,
+              },
+            ]}
+            onPress={() => {
+              setActiveId("");
+              router.replace({
+                pathname: "/(address)/mapViewPage",
+                params: { addressToEdit: JSON.stringify(address) },
+              });
+            }}
+          >
             <Ionicons name="pencil-outline" />
             <Text>Edit</Text>
           </TouchableOpacity>
@@ -109,18 +125,25 @@ const AddressCard = ({
 
 const styles = StyleSheet.create({
   cardContainer: {
-    borderWidth: 1,
-    borderColor: COLORS.primary,
     padding: 20,
     width: "100%",
-    borderRadius: 10,
+    borderRadius: 16,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 10,
   },
+
   ellipsisButton: {
     position: "absolute",
     right: 10,
     top: 10,
     padding: 5,
-    backgroundColor: COLORS.dark,
     borderRadius: 5,
     zIndex: 1,
   },
@@ -133,11 +156,15 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     gap: 5,
+    paddingVertical: 10,
   },
   actionButton: {
     flexDirection: "row",
     gap: 5,
     alignItems: "center",
+    width: "100%",
+    paddingBottom: 5,
+    paddingHorizontal: 10,
   },
 });
 function areEqual(prev: Props, next: Props) {
