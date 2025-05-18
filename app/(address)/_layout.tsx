@@ -23,7 +23,7 @@ export default function AddressLayout() {
               </View>
             </>
           ),
-          animation: "slide_from_right",
+          animation: "fade",
         }}
       />
       <Stack.Screen

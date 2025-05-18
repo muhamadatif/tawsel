@@ -2,7 +2,7 @@ import { AddressItem } from "@/Constants/Types";
 import { create } from "zustand";
 
 interface addressState {
-  currentAddress: AddressItem;
+  currentAddress: AddressItem | null;
   addressList: AddressItem[];
   setCurrentAddress: (address: AddressItem) => void;
   addAddressToList: (address: AddressItem) => void;
@@ -10,16 +10,7 @@ interface addressState {
   deleteAddress: (id: string) => void;
 }
 const useAddressStore = create<addressState>((set) => ({
-  currentAddress: {
-    id: "",
-    tag: "",
-    building: "",
-    flat: "",
-    reach: "",
-    place: null,
-    latitude: 0,
-    longitude: 0,
-  },
+  currentAddress: null,
   addressList: [],
   setCurrentAddress: (address: AddressItem) =>
     set(() => ({ currentAddress: address })),
@@ -32,9 +23,14 @@ const useAddressStore = create<addressState>((set) => ({
       ),
     })),
   deleteAddress: (id: string) =>
-    set((state) => ({
-      addressList: state.addressList.filter((a) => a.id !== id),
-    })),
+    set((state) => {
+      const newList = state.addressList.filter((a) => a.id !== id);
+      return {
+        addressList: newList,
+        currentAddress:
+          state.currentAddress?.id === id ? newList[0] : state.currentAddress,
+      };
+    }),
 }));
 
 export default useAddressStore;

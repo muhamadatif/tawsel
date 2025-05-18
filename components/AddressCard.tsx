@@ -30,7 +30,7 @@ const AddressCard = ({
     width: 0,
     height: 0,
   });
-  const activeAddress = Boolean(currentAddress.id === address.id);
+  const activeAddress = Boolean(currentAddress?.id === address.id);
   const isActive = activeId === address.id;
 
   const buttonRef = useRef<React.ComponentRef<typeof TouchableOpacity>>(null);

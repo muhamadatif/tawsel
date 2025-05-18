@@ -8,7 +8,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 type Props = {
   location?: string;
   onPress: () => void;
-  address?: AddressItem;
+  address?: AddressItem | null;
 };
 
 const LocationButton = ({ location, onPress, address }: Props) => {

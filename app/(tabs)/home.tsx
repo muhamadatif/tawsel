@@ -1,5 +1,7 @@
+import Categories from "@/components/Categories";
+import Discount from "@/components/Discount";
 import DropButton from "@/components/DropButton";
-import SearchButton from "@/components/LocationButton";
+import LocationButton from "@/components/LocationButton";
 import { COLORS } from "@/Constants/Colors";
 import useBackHandler from "@/hooks/useBackHandler";
 import useAddressStore from "@/store/useAddress";
@@ -11,9 +13,13 @@ import { ScrollView } from "react-native-gesture-handler";
 const Home = () => {
   const router = useRouter();
   const currentAddress = useAddressStore((state) => state.currentAddress);
+
   useBackHandler(true);
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.container}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
       <View style={styles.headerSection}>
         <View style={styles.title}>
           <View>
@@ -27,12 +33,16 @@ const Home = () => {
           </View>
           <DropButton onPress={() => console.log("hi")} />
         </View>
-        <SearchButton
+        <LocationButton
           onPress={() => {
             router.push("/(address)/addressList");
           }}
           address={currentAddress}
         />
+      </View>
+      <View style={styles.main}>
+        <Discount />
+        <Categories />
       </View>
     </ScrollView>
   );
@@ -43,6 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 22,
     backgroundColor: COLORS.white,
+    gap: 20,
   },
   headerSection: {
     gap: 15,
@@ -58,6 +69,10 @@ const styles = StyleSheet.create({
     gap: 5,
   },
   subHeaderText: { fontWeight: "bold", fontSize: 26, color: COLORS.dark },
+  main: {
+    flex: 1,
+    gap: 20,
+  },
 });
 
 export default Home;
