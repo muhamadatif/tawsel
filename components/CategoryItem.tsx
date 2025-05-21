@@ -52,11 +52,11 @@ const styles = StyleSheet.create({
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 5,
     },
-    shadowRadius: 5,
-    shadowOpacity: 0.1,
-    elevation: 5,
+    shadowRadius: 3,
+    shadowOpacity: 0.01,
+    elevation: 3,
   },
   iconBox: {
     backgroundColor: COLORS.grayLight,
