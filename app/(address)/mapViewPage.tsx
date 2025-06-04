@@ -1,10 +1,10 @@
 import BottomSheetComponent from "@/components/BottomSheetComponent";
 import Button from "@/components/Button";
-import CompleteAddress from "@/components/CreateEditAddress";
 import GooglePlacesSearch from "@/components/GooglePlacesSearch";
 import Map from "@/components/Map";
 import { COLORS } from "@/Constants/Colors";
-import useRequestLocation from "@/hooks/useRequestLocation";
+import CompleteAddress from "@/features/address/CreateEditAddress";
+import useRequestLocation from "@/features/address/useRequestLocation";
 import { formatAddress } from "@/utils/helpers";
 import { Ionicons } from "@expo/vector-icons";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";

@@ -3,9 +3,11 @@ import { Restaurant } from "@/Constants/Types";
 import useRestaurantStore from "@/store/useRestaurants";
 import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import React from "react";
 import {
   ImageBackground,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -16,7 +18,10 @@ const RestaurantCard = ({ restaurant }: { restaurant: Restaurant }) => {
   const toggleFavourite = useRestaurantStore((state) => state.toggleFavourite);
 
   return (
-    <View style={styles.card}>
+    <Pressable
+      style={({ pressed }) => [{ opacity: pressed ? 1 : 1 }, styles.card]}
+      onPress={() => router.push(`/restaurants/${restaurant.id}`)}
+    >
       <ImageBackground
         source={restaurant.image}
         style={styles.image}
@@ -42,11 +47,11 @@ const RestaurantCard = ({ restaurant }: { restaurant: Restaurant }) => {
           <Text style={styles.name}>{restaurant.name}</Text>
           <Text style={styles.rating}>
             ⭐ {restaurant.rating}
-            {restaurant.reviews < 1000 ? `(${restaurant.reviews})` : "(+1000)"}
+            {restaurant.reviews <= 1000 ? `(${restaurant.reviews})` : "(+1000)"}
           </Text>
         </View>
       </ImageBackground>
-    </View>
+    </Pressable>
   );
 };
 

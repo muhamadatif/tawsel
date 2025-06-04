@@ -22,3 +22,17 @@ export type Restaurant = {
   image: any;
   favourite: boolean;
 };
+
+export type MenuItemType = {
+  id: string;
+  name: string;
+  price: number;
+  description?: string;
+  image?: any;
+};
+
+export type Category = {
+  id: string;
+  name: string;
+  items: MenuItemType[];
+};

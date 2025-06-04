@@ -6,7 +6,7 @@ const restaurantsArray = [
     id: "1",
     name: "Qasr AlShawarma",
     rating: 4.4,
-    reviews: 900,
+    reviews: 1000,
     logo: require("@/assets/images/restaurants/logo1.webp"),
     image: require("@/assets/images/restaurants/restaurant1.jpg"),
     favourite: false,

@@ -1,8 +1,13 @@
 import { COLORS } from "@/Constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { router, Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export default function AddressLayout() {
   return (
@@ -12,7 +17,11 @@ export default function AddressLayout() {
         options={{
           header: () => (
             <>
-              <StatusBar backgroundColor={COLORS.primary} />
+              <StatusBar
+                barStyle="dark-content"
+                backgroundColor="transparent"
+                translucent={true}
+              />
               <View style={styles.headerContainer}>
                 <TouchableOpacity onPress={() => router.back()}>
                   <Ionicons name="chevron-back" size={22} />
@@ -29,7 +38,9 @@ export default function AddressLayout() {
       <Stack.Screen
         name="mapViewPage"
         options={{
-          header: () => <StatusBar backgroundColor="white" style="dark" />,
+          header: () => (
+            <StatusBar backgroundColor="white" barStyle="dark-content" />
+          ),
         }}
       />
     </Stack>
@@ -38,12 +49,14 @@ export default function AddressLayout() {
 
 const styles = StyleSheet.create({
   headerContainer: {
-    height: 80,
+    // height: 80,
     backgroundColor: COLORS.primary,
     flexDirection: "row",
     alignItems: "center",
     paddingLeft: 10,
-    marginTop: 30,
+    paddingBottom: 20,
+    paddingTop: 60,
+    // marginTop: 30,
   },
   headerContent: {
     flex: 1,

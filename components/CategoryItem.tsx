@@ -2,60 +2,69 @@ import { COLORS } from "@/Constants/Colors";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-type Category = {
-  title: string;
-  icon: React.ReactNode;
-};
-
 type Props = {
-  category: Category;
+  id: string;
+  name: string;
+  width?: number;
+  icon?: React.ReactNode;
   activeCategory: string;
-  setActiveCategory: React.Dispatch<React.SetStateAction<string>>;
+  setActiveCategory: any;
+  onLayout?: (category: any) => void;
 };
 
 const CategoryItem = ({
-  category,
+  id,
+  name,
+  icon,
+  width = 130,
   activeCategory,
   setActiveCategory,
+  onLayout,
 }: Props) => {
-  const active = activeCategory === category.title;
+  const active = activeCategory === id;
   return (
     <TouchableOpacity
-      style={[styles.container, active && { backgroundColor: COLORS.primary }]}
-      onPress={() => setActiveCategory(category.title)}
+      style={[
+        styles.container,
+        { width: width },
+        active && { backgroundColor: COLORS.primary },
+      ]}
+      onPress={() => setActiveCategory(id)}
+      onLayout={onLayout}
     >
-      <View
-        style={[
-          styles.iconBox,
-          active && { backgroundColor: COLORS.secondary },
-        ]}
-      >
-        {category.icon}
-      </View>
-      <Text style={{ fontWeight: "bold", fontSize: 12 }}>
-        {category?.title}
-      </Text>
+      {icon && (
+        <View
+          style={[
+            styles.iconBox,
+            active && { backgroundColor: COLORS.secondary },
+          ]}
+        >
+          {icon}
+        </View>
+      )}
+      <Text style={{ fontWeight: "bold", fontSize: 12 }}>{name}</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    width: 130,
     height: 40,
     borderRadius: 25,
     padding: 5,
     backgroundColor: COLORS.white,
     flexDirection: "row",
     alignItems: "center",
+    textAlign: "center",
+    justifyContent: "center",
     gap: 5,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 5,
+      height: 10,
     },
     shadowRadius: 3,
-    shadowOpacity: 0.01,
+    shadowOpacity: 0.09,
     elevation: 3,
   },
   iconBox: {

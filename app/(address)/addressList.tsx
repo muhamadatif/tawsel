@@ -1,6 +1,6 @@
-import AddressCard from "@/components/AddressCard";
 import Button from "@/components/Button";
 import { COLORS } from "@/Constants/Colors";
+import AddressCard from "@/features/address/AddressCard";
 import useAddressStore from "@/store/useAddress";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";

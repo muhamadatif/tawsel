@@ -3,10 +3,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import React from "react";
 import { Pressable, StatusBar, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const TABS = [
   { name: "deals", icon: "flame" as keyof typeof Ionicons.glyphMap },
-  { name: "restaurants", icon: "grid" as keyof typeof Ionicons.glyphMap },
+  { name: "test", icon: "grid" as keyof typeof Ionicons.glyphMap },
   { name: "home", icon: "home" as keyof typeof Ionicons.glyphMap },
   { name: "search", icon: "search" as keyof typeof Ionicons.glyphMap },
   { name: "orders", icon: "fast-food" as keyof typeof Ionicons.glyphMap },
@@ -14,7 +15,8 @@ const TABS = [
 
 export default function TabLayout() {
   return (
-    <>
+    // <View style={{ flex: 1, backgroundColor: "white" }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
       <StatusBar barStyle="dark-content" backgroundColor={COLORS.white} />
 
       <Tabs
@@ -26,16 +28,15 @@ export default function TabLayout() {
 
           tabBarStyle: {
             backgroundColor: COLORS.white,
-            borderTopWidth: 0,
+            borderWidth: 1,
+            borderColor: COLORS.grayMedium,
+            borderBottomWidth: 0,
             height: 70,
             borderTopLeftRadius: 25,
             borderTopRightRadius: 25,
             marginTop: -10,
-            shadowColor: COLORS.dark,
-            shadowOffset: { width: 0, height: 10 },
-            shadowOpacity: 0.9,
-            shadowRadius: 10,
-            elevation: 20,
+            bottom: 0,
+            elevation: 0,
           },
         }}
       >
@@ -69,7 +70,8 @@ export default function TabLayout() {
           />
         ))}
       </Tabs>
-    </>
+    </SafeAreaView>
+    // </View>
   );
 }
 
@@ -79,6 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
     position: "relative",
     height: 60,
+    bottom: 0,
   },
   tab: {
     width: 50,

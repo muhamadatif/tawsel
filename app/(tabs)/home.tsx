@@ -1,8 +1,8 @@
-import Categories from "@/components/home/Categories";
-import Discount from "@/components/home/Discount";
-import Header from "@/components/home/Header";
-import Restaurants from "@/components/home/Restaurants";
 import { COLORS } from "@/Constants/Colors";
+import CategoriesSection from "@/features/home/CategoriesSection";
+import DiscountSection from "@/features/home/DiscountSection";
+import HeaderSection from "@/features/home/HeaderSection";
+import RestaurantsSection from "@/features/home/RestaurantsSection";
 import useBackHandler from "@/hooks/useBackHandler";
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -15,11 +15,11 @@ const Home = () => {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={styles.container}
     >
-      <Header />
+      <HeaderSection />
       <View style={styles.main}>
-        <Discount />
-        <Categories />
-        <Restaurants />
+        <DiscountSection />
+        <CategoriesSection />
+        <RestaurantsSection />
       </View>
     </ScrollView>
   );
